@@ -47,7 +47,7 @@ public class ClienteController {
         }
     }
 
-    @GetMapping
+    @GetMapping("/todos")
     @ApiOperation(value="Obtiene todos los clientes")
     @ApiResponses(value = {
         @ApiResponse(code = 200 , message = "Clientes obtenidos correctamente."),
@@ -59,7 +59,7 @@ public class ClienteController {
         return ResponseEntity.ok(clienteService.obtenerTodos());
     }
 
-    @GetMapping("/{dni}")
+    @GetMapping("/dni/{dni}")
     @ApiOperation(value="Obtiene un cliente por numero de DNI")
     @ApiResponses(value = {
         @ApiResponse(code = 200 , message = "Cliente obtenido correctamente."),
