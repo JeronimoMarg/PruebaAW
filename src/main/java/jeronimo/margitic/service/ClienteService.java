@@ -42,9 +42,9 @@ public class ClienteService {
         return paginasCliente;
     }
 
-    public Cliente crearCliente(Cliente clienteNuevo) {
-        validarCliente(clienteNuevo);
-        clienteRepository.save(clienteNuevo);
+    public Cliente crearCliente(Cliente cliente) {
+        validarCliente(cliente);
+        Cliente clienteNuevo = clienteRepository.save(cliente);
         return clienteNuevo;
     }
 

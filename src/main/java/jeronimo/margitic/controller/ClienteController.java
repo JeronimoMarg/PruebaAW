@@ -40,11 +40,9 @@ public class ClienteController {
     })
     public ResponseEntity<Cliente> obtenerClientePorId (@PathVariable(name="clienteId") int id){
         Optional<Cliente> clienteBuscado = clienteService.obtenerClientePorId(id);
-        if (clienteBuscado.isPresent()){
-            return ResponseEntity.of(clienteBuscado);
-        }else{
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.of(clienteBuscado);
+        //En este caso, el .of() retorara 200 OK si el opcional tiene un valor
+        //Caso contrario retornara 404 Not Found.
     }
 
     @GetMapping("/todos")
@@ -56,7 +54,12 @@ public class ClienteController {
         @ApiResponse(code = 404 , message = "No se obtuvieron clientes.")
     })
     public ResponseEntity<List<Cliente>> obtenerClienteTodos() {
-        return ResponseEntity.ok(clienteService.obtenerTodos());
+        List<Cliente> clientes = clienteService.obtenerTodos();
+        if(clientes.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }else{
+            return ResponseEntity.ok(clientes);
+        }
     }
 
     @GetMapping("/dni/{dni}")
@@ -69,11 +72,7 @@ public class ClienteController {
     })
     public ResponseEntity<Cliente> obtenerClientePorDni (@PathVariable long dni){
         Optional<Cliente> clienteBuscado = clienteService.obtenerClientePorDni(dni);
-        if (clienteBuscado.isPresent()){
-            return ResponseEntity.of(clienteBuscado);
-        }else{
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.of(clienteBuscado);
     }
     
     @PostMapping(path="/crear", consumes="application/json")
@@ -86,7 +85,8 @@ public class ClienteController {
     })
     public ResponseEntity<Cliente> crearCliente (@RequestBody Cliente clienteNuevo) {
         Cliente clienteCreado = clienteService.crearCliente(clienteNuevo);
-        return ResponseEntity.ok(clienteCreado);
+        return ResponseEntity.status(201).body(clienteCreado);
+        //return ResponseEntity.ok(clienteCreado);
     }
 
     @PutMapping("/{id}")
