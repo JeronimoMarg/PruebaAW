@@ -1,0 +1,65 @@
+version: "3.9" # Latest stable version of Compose
+
+services:
+  clientes-app:
+    image: imagen_clientes
+    container_name: clientes_java
+    build:
+      context: . # Path to the Dockerfile (current directory)
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080" # Map host port 8080 to container port 8080
+    deploy:
+      replicas: 1
+      #restart_policy:
+        #condition: on-failure
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/clientes_db
+      SPRING_DATASOURCE_USERNAME: clientes_usuario
+      SPRING_DATASOURCE_PASSWORD: clientes_password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.MySQL8Dialect
+    depends_on:
+      - db # Ensure the database starts before the application
+    networks:
+      - clientes-network
+
+  db:
+    image: mysql:8.0 # Use the official MySQL 8.0 image
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: clientes_db
+      MYSQL_USER: clientes_usuario
+      MYSQL_PASSWORD: clientes_password
+    ports:
+      - "3307:3306" # Expose MySQL on port 3306
+    volumes:
+      - db_data:/var/lib/mysql # Persist database data
+    networks:
+      - clientes-network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest # Use the latest phpMyAdmin image
+    container_name: phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: db # Connect to the `db` service
+      PMA_USER: clientes_usuario
+      PMA_PORT: 3306
+      PMA_PASSWORD: clientes_password
+      #MYSQL_ROOT_PASSWORD: rootpassword
+    ports:
+      - "8081:80" # Expose phpMyAdmin on port 8081
+    depends_on:
+      - db
+    networks:
+      - clientes-network
+
+networks:
+  clientes-network:
+    driver: bridge
+
+volumes:
+  db_data: # Volume for database persistence

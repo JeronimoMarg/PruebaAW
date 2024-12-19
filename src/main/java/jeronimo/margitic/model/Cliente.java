@@ -13,10 +13,20 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Data
 @Entity
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"dni", "numerotelefono"})})
 public class Cliente {
 
@@ -36,7 +46,5 @@ public class Cliente {
     @ApiModelProperty(notes="Ingresar el celuar con codigo de area sin 0 y sin 15")
     @Column(length = 10)
     String numeroTelefono;
-
-    public Cliente(){}
     
 }
