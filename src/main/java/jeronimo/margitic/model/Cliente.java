@@ -2,15 +2,13 @@ package jeronimo.margitic.model;
 
 import java.time.LocalDate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -38,7 +36,6 @@ public class Cliente {
     String apellido;
     long dni;
     @ApiModelProperty(notes="Ingresar la fecha de nacimiento en formato DD/MM/AA")
-    @Temporal(TemporalType.DATE)
     @Column(columnDefinition = "DATE")
     LocalDate fechaNacimiento;
     String calleDomicilio;
