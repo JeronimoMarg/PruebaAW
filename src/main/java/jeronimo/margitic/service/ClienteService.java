@@ -10,7 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import jeronimo.margitic.exception.DniExistenteException;
+import jeronimo.margitic.exception.*;
 import jeronimo.margitic.model.Cliente;
 import jeronimo.margitic.repository.ClienteRepository;
 
@@ -58,17 +58,27 @@ public class ClienteService {
         return clienteActualizado;
     }
 
-    private boolean validarCliente(Cliente cliente){
+    public boolean validarCliente(Cliente cliente){
         boolean respuesta = false;
         try{
             validarDni(cliente.getDni());
             validarFechaNacimiento(cliente.getFechaNacimiento());
             validarNumeroTelefono(cliente.getNumeroTelefono());
+            validarCorreoElectronico(cliente.getCorreoElectronico());
             respuesta = true;
         }catch(Exception e){
             System.err.println("Error: " + e.getMessage());
         }
         return respuesta;
+    }
+
+    private boolean validarCorreoElectronico(String correoElectronico) throws IllegalArgumentException {
+        if(correoElectronico == null || correoElectronico.isEmpty()) {
+            throw new IllegalArgumentException("El correo electronico no puede ser nulo o vacio.");
+        } else if (!correoElectronico.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+            throw new IllegalArgumentException("El correo electronico no corresponde al formato adecuado.");
+        }
+        return true;
     }
 
     private boolean validarDni(long dni) throws IllegalArgumentException, DniExistenteException{

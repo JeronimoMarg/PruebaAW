@@ -1,12 +1,15 @@
 package jeronimo.margitic.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
@@ -31,17 +34,22 @@ public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="id_cliente")
-    int id;
-    String nombre;
-    String apellido;
-    long dni;
+    private int id;
+    private String nombre;
+    private String apellido;
+    private long dni;
     @ApiModelProperty(notes="Ingresar la fecha de nacimiento en formato DD/MM/AA")
     @Column(columnDefinition = "DATE")
-    LocalDate fechaNacimiento;
-    String calleDomicilio;
-    String numeroDomicilio;
+    private LocalDate fechaNacimiento;
+    private String calleDomicilio;
+    private String numeroDomicilio;
     @ApiModelProperty(notes="Ingresar el celuar con codigo de area sin 0 y sin 15")
     @Column(length = 10)
-    String numeroTelefono;
-    
+    private String numeroTelefono;
+    private String correoElectronico;
+    private int maximoDescubierto;
+    private int maximoObrasEnEjecucion;
+    @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
+    private List<UsuarioHabilitado> usuariosHabilitados;
+
 }
