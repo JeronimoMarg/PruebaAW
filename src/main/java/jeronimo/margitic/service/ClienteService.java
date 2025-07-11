@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import jeronimo.margitic.exception.*;
 import jeronimo.margitic.model.Cliente;
+import jeronimo.margitic.model.Obra;
 import jeronimo.margitic.repository.ClienteRepository;
 
 @Service
@@ -108,6 +109,15 @@ public class ClienteService {
             throw new IllegalArgumentException("El numero de telefono no corresponde al formato adecuado.");
         }
         return true;
+    }
+
+    public Float actualizarMaximoDescubierto(Cliente cliente, Float presupuestoEstimado) {
+        cliente.setMaximoDescubierto(cliente.getMaximoDescubierto() - presupuestoEstimado);
+        return cliente.getMaximoDescubierto();
+    }
+
+    public void actualizarObrasEnEjecucion(Cliente cliente, int num) {
+        cliente.setObrasEnEjecucion(cliente.getObrasEnEjecucion() + num);
     }
 
 }

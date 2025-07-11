@@ -3,7 +3,7 @@ package jeronimo.margitic.model;
 public enum EstadoObra {
     /* una obra está habilitada si no sobrepasa el máximo de cantidad de obras activas. 
     Caso contrario se da de alta como Pendiente para despachos y envíos */
-    HABILTIADA,
+    HABILITADA,
 
     /* : la obra no está habilitada porque el cliente alcanzó el máximo permitido */
     PENDIENTE,

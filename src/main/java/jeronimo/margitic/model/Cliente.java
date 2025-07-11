@@ -47,7 +47,8 @@ public class Cliente {
     @Column(length = 10)
     private String numeroTelefono;
     private String correoElectronico;
-    private int maximoDescubierto;
+    private Float maximoDescubierto;
+    private int obrasEnEjecucion;
     private int maximoObrasEnEjecucion;
     @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
     private List<UsuarioHabilitado> usuariosHabilitados;
