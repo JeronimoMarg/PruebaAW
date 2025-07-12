@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import jeronimo.margitic.exception.MaximoDescubiertoExcedidoException;
@@ -13,13 +14,12 @@ import jeronimo.margitic.model.EstadoObra;
 import jeronimo.margitic.model.Obra;
 import jeronimo.margitic.repository.ObraRepository;
 
-import io.github.cdimascio.dotenv.Dotenv;
-
 @Service
 public class ObraService {
 
-    private Dotenv dotenv = Dotenv.load();
-    private Float maximoDescubiertoPermitido = Float.parseFloat(dotenv.get("MAXIMO_DESCUBIERTO"));
+    @Value("${MAXIMO_DESCUBIERTO}")
+    private Float maximoDescubiertoPermitido;
+    //private Float maximoDescubiertoPermitido = Float.parseFloat(maximoDescubiertoString);
 
     @Autowired
     ObraRepository obraRepository;
@@ -53,10 +53,12 @@ public class ObraService {
 
     private boolean validarObra(Obra obra) {
         boolean respuesta = false;
+        obra.setEstadoObra(EstadoObra.PENDIENTE);;
         try{
             verificarMaximoObrasEnEjecucion(obra);
             verificarMaximoDescubierto(obra);
             validarCoordenadas(obra.getCoordenadas());
+            obra.setEstadoObra(EstadoObra.HABILITADA);
             respuesta = true;
         }
         catch(Exception e){

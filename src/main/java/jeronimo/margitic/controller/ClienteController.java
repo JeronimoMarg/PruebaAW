@@ -15,6 +15,7 @@ import io.swagger.annotations.ApiResponses;
 import jeronimo.margitic.model.Cliente;
 import jeronimo.margitic.service.ClienteService;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/clientes")
 @Api(value="ClienteRest", description = "Permite gestionar clientes por medio de comunicacion REST y protocolos HTTP.")

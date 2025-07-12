@@ -3,6 +3,7 @@ package jeronimo.margitic.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -50,7 +51,7 @@ public class Cliente {
     private Float maximoDescubierto;
     private int obrasEnEjecucion;
     private int maximoObrasEnEjecucion;
-    @OneToMany(mappedBy = "cliente", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<UsuarioHabilitado> usuariosHabilitados;
 
 }
