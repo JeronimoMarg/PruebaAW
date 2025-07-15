@@ -1,14 +1,14 @@
 version: "3.9" # Latest stable version of Compose
 
 services:
-  clientes-app:
+  cliente-service:
     image: imagen_clientes
-    container_name: clientes_java
+    container_name: cliente-service
     build:
       context: . # Path to the Dockerfile (current directory)
       dockerfile: Dockerfile
     ports:
-      - "8080:8080" # Map host port 8080 to container port 8080
+      - "8082:8080" # Map random port to container port 8080
     deploy:
       replicas: 1
       #restart_policy:
@@ -22,7 +22,8 @@ services:
     depends_on:
       - db # Ensure the database starts before the application
     networks:
-      - clientes-network
+      - cliente-network
+      - services-network
 
   db:
     image: mysql:8.0 # Use the official MySQL 8.0 image
@@ -38,7 +39,7 @@ services:
     volumes:
       - db_data:/var/lib/mysql # Persist database data
     networks:
-      - clientes-network
+      - cliente-network
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest # Use the latest phpMyAdmin image
@@ -55,11 +56,13 @@ services:
     depends_on:
       - db
     networks:
-      - clientes-network
+      - cliente-network
 
 networks:
-  clientes-network:
+  cliente-network:
     driver: bridge
+  services-network:
+    external: true
 
 volumes:
   db_data: # Volume for database persistence

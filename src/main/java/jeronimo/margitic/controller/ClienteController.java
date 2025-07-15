@@ -23,10 +23,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/clientes")
 @Api(value="ClienteRest", description = "Permite gestionar clientes por medio de comunicacion REST y protocolos HTTP.")
+@CrossOrigin(origins = {"http://localhost:3000","http://localhost:8080"})
 public class ClienteController {
 
     @Autowired
@@ -53,15 +53,11 @@ public class ClienteController {
         @ApiResponse(code = 200 , message = "Clientes obtenidos correctamente."),
         @ApiResponse(code = 401 , message = "No autorizado."),
         @ApiResponse(code = 403 , message = "Prohibido"),
-        @ApiResponse(code = 404 , message = "No se obtuvieron clientes.")
+        @ApiResponse(code = 404 , message = "Recurso no encontrado.")
     })
     public ResponseEntity<List<Cliente>> obtenerClienteTodos() {
         List<Cliente> clientes = clienteService.obtenerTodos();
-        if(clientes.isEmpty()){
-            return ResponseEntity.notFound().build();
-        }else{
-            return ResponseEntity.ok(clientes);
-        }
+        return ResponseEntity.ok(clientes);
     }
 
     @GetMapping("/dni/{dni}")

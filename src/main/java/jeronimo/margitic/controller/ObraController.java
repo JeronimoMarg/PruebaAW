@@ -22,10 +22,10 @@ import io.swagger.annotations.ApiResponses;
 import jeronimo.margitic.model.Obra;
 import jeronimo.margitic.service.ObraService;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/obras")
 @Api(value="ObraRest", description = "Permite gestionar obras con REST y HTTP.")
+@CrossOrigin(origins = {"http://localhost:3000","http://localhost:8080"})
 public class ObraController {
     
     @Autowired
@@ -56,11 +56,7 @@ public class ObraController {
     })
     public ResponseEntity<List<Obra>> obtenerObrasTodas() {
         List<Obra> obras = obraService.obtenerTodas();
-        if(obras.isEmpty()){
-            return ResponseEntity.notFound().build();
-        }else{
-            return ResponseEntity.ok(obras);
-        }
+        return ResponseEntity.ok(obras);
     }
     
     @PostMapping(path="/crear", consumes="application/json")

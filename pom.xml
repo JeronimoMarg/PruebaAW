@@ -5,13 +5,13 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.4.0</version>
+		<version>3.5.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>jeronimo.margitic</groupId>
-	<artifactId>IAppos</artifactId>
+	<artifactId>cliente-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>IAppos</name>
+	<name>cliente-service</name>
 	<description>AplicacionDemoWebJava</description>
 	<url/>
 	<licenses>
@@ -98,10 +98,18 @@
 			<version>8.0.33</version>
 		</dependency>
 
+		<!-- dependencia para usar archivos .env-->
 		<dependency>
   			<groupId>io.github.cdimascio</groupId>
   			<artifactId>dotenv-java</artifactId>
   			<version>3.0.0</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-netflix-eureka-client -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+			<version>4.3.0</version>
 		</dependency>
 
 	</dependencies>
