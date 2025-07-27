@@ -68,9 +68,13 @@ public class ObraController {
         @ApiResponse(code = 404 , message = "No se pudo crear la obra (verificar datos)")
     })
     public ResponseEntity<Obra> crearObra (@RequestBody Obra obraNueva) {
-        Obra obraCreada = obraService.crearObra(obraNueva);
-        return ResponseEntity.status(201).body(obraCreada);
-        //return ResponseEntity.ok(clienteCreado);
+        Obra obraCreada;
+        try {
+            obraCreada = obraService.crearObra(obraNueva);
+            return ResponseEntity.status(201).body(obraCreada);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @PutMapping("/{id}")
@@ -84,8 +88,12 @@ public class ObraController {
     public ResponseEntity<Obra> actualizarObra (@PathVariable int id, @RequestBody Obra obra) {
         Optional<Obra> obraAActualizar = obraService.obtenerObraPorId(id);
         if(obraAActualizar.isPresent()){
-            obraService.actualizarObra(obra);
-            return ResponseEntity.ok(obra);
+            try{
+                obraService.actualizarObra(obra);
+                return ResponseEntity.ok(obra);
+            }catch(Exception e){
+                return ResponseEntity.badRequest().build();
+            }
         }else{
             return ResponseEntity.notFound().build();
         }

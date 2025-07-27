@@ -29,7 +29,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"dni", "numerotelefono"})})
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"dni", "numerotelefono", "correoElectronico"})})
 public class Cliente {
 
     @Id
@@ -48,10 +48,10 @@ public class Cliente {
     @Column(length = 10)
     private String numeroTelefono;
     private String correoElectronico;
-    private Float maximoDescubierto;
+    private Float maximoDescubierto;    //Indica la cantidad maxima de dinero que puede quedar debiendo en la cuenta corriente.
     private int obrasEnEjecucion;
-    private int maximoObrasEnEjecucion;
+    private int maximoObrasEnEjecucion; //Indica la cantidad maxima de obras que un
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<UsuarioHabilitado> usuariosHabilitados;
+    private List<UsuarioHabilitado> usuariosHabilitados;    //Son los usuarios que estan habilitados a operar en nombre del cliente
 
 }

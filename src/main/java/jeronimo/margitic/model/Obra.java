@@ -33,8 +33,7 @@ public class Obra {
     @Column(name="id_obra")
     private int id;
     private String direccion;
-    // El formato de las coordenadas es: [latitud,longitud]
-    private String coordenadas;
+    private String coordenadas;    // El formato de las coordenadas es: [latitud,longitud]
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_cliente")
     private Cliente cliente;

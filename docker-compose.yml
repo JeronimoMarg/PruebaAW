@@ -60,6 +60,7 @@ services:
 
 networks:
   cliente-network:
+    name: "cliente-network"
     driver: bridge
   services-network:
     external: true

@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.andrewoma.dexx.collection.Map;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -44,7 +46,6 @@ public class ClienteController {
         Optional<Cliente> clienteBuscado = clienteService.obtenerClientePorId(id);
         return ResponseEntity.of(clienteBuscado);
         //En este caso, el .of() retorara 200 OK si el opcional tiene un valor
-        //Caso contrario retornara 404 Not Found.
     }
 
     @GetMapping("/todos")
@@ -82,11 +83,15 @@ public class ClienteController {
         @ApiResponse(code = 404 , message = "No se pudo crear el cliente (verificar datos)")
     })
     public ResponseEntity<Cliente> crearCliente (@RequestBody Cliente clienteNuevo) {
-        Cliente clienteCreado = clienteService.crearCliente(clienteNuevo);
-        return ResponseEntity.status(201).body(clienteCreado);
-        //return ResponseEntity.ok(clienteCreado);
+        try{
+            Cliente clienteCreado = clienteService.crearCliente(clienteNuevo);
+            return ResponseEntity.status(201).body(clienteCreado);
+        }catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
     }
 
+    //Habria que ponerle que consume app/json tambien? Probar
     @PutMapping("/{id}")
     @ApiOperation(value="Actualiza un cliente")
     @ApiResponses(value = {
@@ -98,8 +103,12 @@ public class ClienteController {
     public ResponseEntity<Cliente> actualizarCliente (@PathVariable int id, @RequestBody Cliente cliente) {
         Optional<Cliente> clienteAActualizar = clienteService.obtenerClientePorId(id);
         if(clienteAActualizar.isPresent()){
-            clienteService.actualizarCliente(cliente);
-            return ResponseEntity.ok(cliente);
+            try{
+                Cliente actualizado = clienteService.actualizarCliente(cliente);
+                return ResponseEntity.ok(actualizado);
+            }catch (Exception e){
+                return ResponseEntity.badRequest().build();
+            }
         }else{
             return ResponseEntity.notFound().build();
         }
@@ -122,6 +131,18 @@ public class ClienteController {
             return ResponseEntity.notFound().build();
         }
     }
+    @GetMapping("/verificarSaldo/{id}")
+    public ResponseEntity<Boolean> verificarSaldoCliente(@PathVariable int id, @RequestBody Map<String, Object> totalOrden) {
+        Optional<Cliente> clienteBuscado = clienteService.obtenerClientePorId(id);
+        if (clienteBuscado.isPresent()) {
+            float total = Float.valueOf(totalOrden.get("total").toString());
+            boolean respuesta = clienteService.tieneSaldoParaOrden(clienteBuscado.get(), total);
+            return ResponseEntity.ok(respuesta);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
 
     
     
