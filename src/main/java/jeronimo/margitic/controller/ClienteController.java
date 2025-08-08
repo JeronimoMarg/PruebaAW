@@ -131,7 +131,8 @@ public class ClienteController {
             return ResponseEntity.notFound().build();
         }
     }
-    @GetMapping("/verificarSaldo/{id}")
+
+    @PostMapping("/verificarSaldo/{id}")
     public ResponseEntity<Boolean> verificarSaldoCliente(@PathVariable int id, @RequestBody Map<String, Object> totalOrden) {
         Optional<Cliente> clienteBuscado = clienteService.obtenerClientePorId(id);
         if (clienteBuscado.isPresent()) {

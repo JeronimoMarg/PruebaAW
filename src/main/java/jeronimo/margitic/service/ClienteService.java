@@ -10,10 +10,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import com.github.andrewoma.dexx.collection.Map;
 
+import jeronimo.margitic.config.RestTemplateClient;
 import jeronimo.margitic.exception.*;
 import jeronimo.margitic.model.Cliente;
 import jeronimo.margitic.repository.ClienteRepository;
@@ -25,7 +25,7 @@ public class ClienteService {
     ClienteRepository clienteRepository;
 
     @Autowired
-    private RestTemplate restTemplate;
+    private RestTemplateClient restTemplate;
     
     private final String url_pedidos = "http:///pedido-service:8080/api/pedidos";
 
